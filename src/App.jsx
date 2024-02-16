@@ -1,10 +1,8 @@
 import React from 'react'
-import Select from 'react-select'
+import AsyncSelect from 'react-select/async'
 import makeAnaimated from 'react-select/animated'
 
 const animatedComponents = makeAnaimated()
-
-function App() {
 
   const options = [
     { value: 'chocolate', label: 'Chocolate' },
@@ -12,15 +10,56 @@ function App() {
     { value: 'vanilla', label: 'Vanilla' },
   ]
 
+  const styles = {
+
+    control:(styles) => {
+      console.log(styles)
+      return {
+        ...styles,
+        backgroundColor: 'black',
+      }
+    },
+    placeholder: (styles) => {
+      return {
+        ...styles,
+        color: 'yellow'
+      }
+    },
+    option: (styles) => {
+      return {
+        ...styles,
+        backgroundColor: '#EEE0CB',
+        color: 'red'
+      }
+    }
+  }
+
+function App() {
+
+  const loadOptions = (searchValue, callback) => {
+    setTimeout(() => {
+      
+      const filteredOptions = options.filter(option => 
+        option.label
+         .toLocaleLowerCase()
+         .includes(searchValue.toLocaleLowerCase()))
+      
+        callback(filteredOptions)
+    }, 2000)
+  }
+
   return (
-    <div style={{width: '30%'}}>
-      <Select 
-        isMulti
+    <div style={{width: '70%'}}>
+      <AsyncSelect 
         closeMenuOnSelect={false}
         components={animatedComponents}
-        defaultValue={[options[0], options[2]]}
-        options={options} 
-        onChange={(selectedOption) => console.log(selectedOption)}/>
+        //defaultValue={[options[0], options[2]]}
+        //options={options}
+        loadOptions={loadOptions}
+        defaultOptions
+        onChange={(selectedOption) => console.log(selectedOption)}
+        styles={styles}
+        />
     </div>
   )
 }
