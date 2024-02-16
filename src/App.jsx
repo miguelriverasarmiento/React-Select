@@ -53,8 +53,6 @@ function App() {
       <AsyncSelect 
         closeMenuOnSelect={false}
         components={animatedComponents}
-        //defaultValue={[options[0], options[2]]}
-        //options={options}
         loadOptions={loadOptions}
         defaultOptions
         onChange={(selectedOption) => console.log(selectedOption)}
